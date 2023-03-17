@@ -1,0 +1,45 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<form id="my-form" method="POST" action="/submit">
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="email">이메일:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <button type="submit">제출</button>
+</form>
+<div id="result"></div>
+<script>
+  $(document).ready(function() {
+  // 폼 제출 시
+  $('#my-form').submit(function(event) {
+    // 기본 제출 방식 차단
+    event.preventDefault();
+
+    // 데이터 준비
+    const formData = {
+      name: $('input[name=name]').val(),
+      email: $('input[name=email]').val()
+    };
+
+    // Ajax 요청 설정
+    $.ajax({
+      type: 'POST',
+      url: '/submit',
+      data: formData
+    })
+    .done(function(response) {
+      // 요청이 성공적으로 완료된 경우 처리
+      console.log(response);
+      $('#result').html(response) ;
+
+    })
+    .fail(function(error) {
+      // 요청이 실패한 경우 처리
+      console.error(error);
+    });
+  });
+});
+
+</script>  
